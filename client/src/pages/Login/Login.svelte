@@ -1,12 +1,19 @@
 <script>
     import { useForm, validators, HintGroup, Hint, email, required } from "svelte-use-form";
     import { BASE_URL } from "../../store/urlDomain.js";
+    import toastr from "toastr";
+    import 'toastr/build/toastr.css';
     
     const form = useForm();
 
+toastr.option = {
+        "positionClass": "toast-top-right",
+        "timeOut": "3000"
+    }
+
     async function handleLogin(){
         const credentialsToJSON = JSON.stringify($form, null, " ");
-        const loginUrl= $BASE_URL + "/auth/login";
+        const loginUrl= $BASE_URL + "/user/login";
 
         const response = await fetch(loginUrl, {
             method: "POST",
@@ -17,6 +24,11 @@
             credentials: "include"
         });
 
+        const data = await response.json();
+        console.log(data);
+
+        //success message
+        
     };
 
 </script>
@@ -34,11 +46,6 @@
 
     <button disabled={!$form.valid} type="submit">Login</button>
 </form>
-
-<pre>
-    {JSON.stringify($form, null, " ")}
-    console.log(form.values)
-</pre>
 
 <style>
     :global(.touched:invalid) {

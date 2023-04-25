@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "svelte-navigator": "^3.2.2",
-    "svelte-use-form": "^2.6.2"
+    "svelte-use-form": "^2.6.2",
+    "toastr": "^2.1.4"
   }
 }

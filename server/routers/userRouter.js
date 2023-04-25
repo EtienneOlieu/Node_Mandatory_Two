@@ -5,25 +5,32 @@ import bcrypt from "bcrypt";
 
 
 router.get("/users/logout", async (req, res) => {
-
-    res.send({ users });
+    req.session.destroy(()=>{
+        res.send({ message: "Logged out." });
+    })
+    
 });
 
 router.post("/users/login", async (req, res) => {
-    const currentUser = await db.all("SELECT * FROM users WHERE name = ?;" [req.body.name]);
-    
+    console.log(req.body);
+    const {name, email, password} = req.body;
 
-})
+    const user = await db.get("SELECT * FROM users WHERE name = ?;" [req.body.email]);
+    if (!user){
+        return res.status(404).send({message: "User does not exist."});
+    }
 
-router.post("/users", async (req, res) => {
-    if (!req.body.name){
-        return res.status(400).send({message: "Missing the key (name) in the body"});
-    };
+    const userpass = await bcrypt.compare(password, user.password);
 
-    const encryptedPassword = await bcrypt.hash(req.body.password, 12);
+    if(!userpass){
+        return res.status(400).send({message: "Invalid password"});
+    }
 
-    const { lastID } = await db.run('INSERT INTO users(name, email, password) VALUES (?, ?, ?)', [req.body.name, req.body.email, encryptedPassword]);
-    res.status(201).send({ id: lastID, name: req.body.name });
+    req.session.user = user.name;
+    req.session.email = user.email;
+
+    res.send(req.session);
+
 })
 
 export default router;
