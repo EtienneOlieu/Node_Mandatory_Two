@@ -1,4 +1,5 @@
 import db from "./connection.js"
+import bcrypt from "bcrypt";
 
 const isDeleteMode = process.argv.findIndex((argument) => argument === "delete_mode") === -1 ? false : true;
 
@@ -12,14 +13,19 @@ db.exec(`
 CREATE TABLE IF NOT EXISTS users(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT,
-    email TEXT
+    email TEXT,
+    password TEXT
     );
 `);
 
 /* DML - seeding */
 
+const mikkelPw = await bcrypt.hash("denimder", 12);
+const nicolajPw = await bcrypt.hash("excelstan", 12);
+const tildePw = await bcrypt.hash("gothchick83", 12);
+
 if(isDeleteMode){
-db.exec(`INSERT INTO users (name, email) VALUES ('Mikkel T', 'mikkeldrengen@mail.dk');`);
-db.exec(`INSERT INTO users (name, email) VALUES ('Nicolaj H', 'niller@mail.dk');`);
-db.exec(`INSERT INTO users (name, email) VALUES ('Tilde F', 'tildepigen@mail.dk');`);
+db.exec(`INSERT INTO users (name, email, password) VALUES ('Mikkel', 'mikkeldrengen@mail.dk', '${mikkelPw}');`);
+db.exec(`INSERT INTO users (name, email, password) VALUES ('Nicolaj', 'niller@mail.dk', '${nicolajPw}');`);
+db.exec(`INSERT INTO users (name, email, password) VALUES ('Tilde', 'tildepigen@mail.dk', '${tildePw}');`);
 }

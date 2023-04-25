@@ -6,14 +6,17 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "create-database": "node ./databases/createDatabase.js",
+    "create-db": "node ./databases/createDatabase.js",
     "reset-db": "node ./databases/createDatabase.js delete_mode"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.1.0",
+    "cors": "^2.8.5",
     "express": "^4.18.2",
+    "express-session": "^1.17.3",
     "sqlite": "^4.1.2",
     "sqlite3": "^5.1.6"
   }
