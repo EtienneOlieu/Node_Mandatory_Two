@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 const isDeleteMode = process.argv.findIndex((argument) => argument === "delete_mode") === -1 ? false : true;
 
 if (isDeleteMode){
-    db.exec('DROP TABLE IF EXISTS users;');
+    db.exec('DROP TABLE users;');
 }
 
 /* DDL */
@@ -25,7 +25,7 @@ const nicolajPw = await bcrypt.hash("excelstan", 12);
 const tildePw = await bcrypt.hash("gothchick83", 12);
 
 if(isDeleteMode){
-db.exec(`INSERT INTO users (name, email, password) VALUES ('Mikkel', 'mikkeldrengen@mail.dk', '${mikkelPw}');`);
-db.exec(`INSERT INTO users (name, email, password) VALUES ('Nicolaj', 'niller@mail.dk', '${nicolajPw}');`);
-db.exec(`INSERT INTO users (name, email, password) VALUES ('Tilde', 'tildepigen@mail.dk', '${tildePw}');`);
+db.run("INSERT INTO users (name, email, password) VALUES (?, ?, ?)", ['Mikkel', 'mikkeldrengen@mail.dk', mikkelPw]);
+db.run("INSERT INTO users (name, email, password) VALUES (?, ?, ?)", ['Nicolaj', 'niller@mail.dk', nicolajPw]);
+db.run("INSERT INTO users (name, email, password) VALUES (?, ?, ?)", ['Tilde', 'tildepigen@mail.dk', tildePw]);
 }

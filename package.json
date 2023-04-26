@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "cors": "^2.8.5",
+    "sqlite": "^4.1.2",
+    "sqlite3": "^5.1.6"
+  }
+}

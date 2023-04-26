@@ -10,7 +10,7 @@ app.use(helmet());
 import cors from "cors";
 app.use(cors({
     credentials: true,
-    origin: true
+    origin: "http://localhost:5173"
 }));
 
 import rateLimit from 'express-rate-limit';
@@ -42,8 +42,3 @@ app.listen(PORT, (error) =>{
     }
     console.log("Server is running on port:", PORT) 
 })
-
-/*
-alternativ måde at oprette server på
-const server = app.listen(PORT, ()=> console.log("Server is running on port:", server.address().port));
-*/

@@ -1,20 +1,24 @@
 <script>
-    import { useForm, validators, HintGroup, Hint, email, required } from "svelte-use-form";
     import { BASE_URL } from "../../store/urlDomain.js";
     import toastr from "toastr";
     import 'toastr/build/toastr.css';
     
-    const form = useForm();
 
 toastr.option = {
         "positionClass": "toast-top-right",
         "timeOut": "3000"
     }
 
-    async function handleLogin(){
-        const credentialsToJSON = JSON.stringify($form, null, " ");
-        const loginUrl= $BASE_URL + "/user/login";
+let email = ""
+let password = ""
 
+    async function handleLogin(){
+
+        const credentialsToJSON = JSON.stringify({email, password});
+
+        const loginUrl= $BASE_URL + "/users/login";
+    
+        
         const response = await fetch(loginUrl, {
             method: "POST",
             headers: {
@@ -25,31 +29,23 @@ toastr.option = {
         });
 
         const data = await response.json();
-        console.log(data);
-
+       console.log(data)
         //success message
-        
+
+        email = "";
+        password = "";
     };
+
 
 </script>
 
-<form use:form on:submit|preventDefault="{handleLogin}">
-    <h1>LOGIN</h1>
-    <input type="email" name="email" use:validators={[required, email]} />
-    <HintGroup for="email">
-        <Hint on="required">Mandatory field</Hint>
-        <Hint on="email" hideWhenRequired>Invalid email</Hint>
-    </HintGroup>
+<slot></slot>
 
-    <input type="password" name="password" use:validators={[required]} />
-    <Hint for="password" on="required">Mandatory field</Hint>
+<h1>LOGIN</h1>
 
-    <button disabled={!$form.valid} type="submit">Login</button>
+<form on:submit|preventDefault="{handleLogin}">
+    <input type="email" name="email" placeholder="email" bind:value={email} required/>
+    <input type="password" name="password" placeholder="password" bind:value={password} required/>
+
+    <button type="submit">Login</button>
 </form>
-
-<style>
-    :global(.touched:invalid) {
-        border-color: red;
-        outline-color: red;
-    }
-</style>
