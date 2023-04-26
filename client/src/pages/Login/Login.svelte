@@ -2,6 +2,7 @@
     import { BASE_URL } from "../../store/urlDomain.js";
     import toastr from "toastr";
     import 'toastr/build/toastr.css';
+    import { user } from "../../store/user.js"
     
 
 toastr.option = {
@@ -29,8 +30,27 @@ let password = ""
         });
 
         const data = await response.json();
-       console.log(data)
-        //success message
+       
+        if (response.status === 404) {
+            toastr.error(`User does not exist. Maybe you need to subscribe`)
+        }
+        if (response.status === 400){
+            toastr.error(`Wrong password.`)
+        }
+        
+        //TODO remove log
+        console.log("This is the data from DB: ", data);
+        
+
+        if (response.status === 200 && data.email === email){
+    
+            user.set({name: data.name, email: data.email});
+            
+            //TODO remove log
+            console.log("This should be the user", $user)
+
+            toastr.success(`Welcome back ${$user.name}!`);
+        }
 
         email = "";
         password = "";

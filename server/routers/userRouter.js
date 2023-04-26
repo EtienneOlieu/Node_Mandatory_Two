@@ -16,11 +16,13 @@ router.get("/users/logout", async (req, res) => {
 });
 
 router.post("/users/login", async (req, res) => {
-    console.log(req.body);
-    const {name, email, password} = req.body;
+    //TODO remove log
+    console.log("Request body", req.body);
+    const {email, password} = req.body;
 
     const user = await db.get("SELECT * FROM users WHERE email = ?;", [email]);
-    console.log("User is: ", user);
+    //TODO remove log
+    console.log("User found in DB: ", user);
 
     if (!user){
         return res.status(404).send({message: "User does not exist."});
@@ -28,16 +30,18 @@ router.post("/users/login", async (req, res) => {
 
     const userpass = await bcrypt.compare(password, user.password);
 
-console.log(userpass);
-
     if(!userpass){
         return res.status(400).send({message: "Invalid password"});
     }
 
-    req.session.user = user.name;
-    req.session.email = user.email;
-
-    res.send(req.session);
+    req.session.user = {
+        name: user.name, email
+    }
+    
+    //TODO remove log
+    console.log("Session User is: ",req.session.user)
+   
+    res.status(200).send(req.session.user);
 
 })
 
