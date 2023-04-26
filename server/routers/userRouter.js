@@ -5,7 +5,7 @@ import bcrypt from "bcrypt";
 
 router.get("/users/logout", async (req, res) => {
     req.session.destroy(()=>{
-        res.send({ message: "Logged out." });
+        res.status(200).send({ message: "Logged out." });
     })
     
 });

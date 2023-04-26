@@ -2,7 +2,8 @@
     import { BASE_URL } from "../../store/urlDomain.js";
     import toastr from "toastr";
     import 'toastr/build/toastr.css';
-    import { user } from "../../store/user.js"
+    import { user } from "../../store/user.js";
+    import { navigate } from "svelte-navigator";
     
 
 toastr.option = {
@@ -42,7 +43,10 @@ let password = ""
     
             user.set({name: data.name, email: data.email});
 
-            toastr.success(`Welcome back ${$user.name}!`);
+            toastr.success(`You logged in successfully, welcome back ${$user.name}`);
+            setTimeout(() => {
+                navigate("/", { replace: true });
+            }, 2000)
         }
 
         email = "";
