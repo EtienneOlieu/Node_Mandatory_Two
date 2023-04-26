@@ -36,18 +36,11 @@ let password = ""
         }
         if (response.status === 400){
             toastr.error(`Wrong password.`)
-        }
-        
-        //TODO remove log
-        console.log("This is the data from DB: ", data);
-        
+        }    
 
         if (response.status === 200 && data.email === email){
     
             user.set({name: data.name, email: data.email});
-            
-            //TODO remove log
-            console.log("This should be the user", $user)
 
             toastr.success(`Welcome back ${$user.name}!`);
         }
