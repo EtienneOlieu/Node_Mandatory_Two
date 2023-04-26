@@ -31,6 +31,20 @@ app.use(session({
     cookie: { secure: false }
 }));
 
+function restrictedAuthorizer(req, res, next) {
+    if (!req.session.name) {
+        return res.status(403).send({ message: "This is a restricted area, please log in." });
+    }    
+    next();
+}
+
+app.use("/restricted-area", restrictedAuthorizer);
+
+app.get("*", (req, res) => {
+    res.send("<h1>404 - Not Found</h1>")
+});
+
+
 import userRouter from "./routers/userRouter.js";
 app.use(userRouter);
 

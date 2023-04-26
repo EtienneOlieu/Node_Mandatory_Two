@@ -20,6 +20,7 @@
     "express-rate-limit": "^6.7.0",
     "express-session": "^1.17.3",
     "helmet": "^6.1.5",
+    "navigator": "^1.0.1",
     "nodemailer": "^6.9.1",
     "sqlite": "^4.1.2",
     "sqlite3": "^5.1.6"

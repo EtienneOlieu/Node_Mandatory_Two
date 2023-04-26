@@ -65,7 +65,7 @@ let recoveryEmail = "";
             return toastr.success("An email has been sent")
         }
         else {
-            return toastr.error(response.status)
+            return toastr.error("That email is not registered here");
         }
     };
 

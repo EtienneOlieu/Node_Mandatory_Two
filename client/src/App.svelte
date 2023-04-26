@@ -1,16 +1,27 @@
 <script>
+import { user } from "../src/store/user";
 import { Router, Link, Route } from "svelte-navigator";
+import PrivateRoute from "./components/Protectors/PrivateRoute.svelte";
+
 import Home from "./pages/Home/Home.svelte";
 import Login from "./pages/Login/Login.svelte";
 import Signup from './pages/SignUp/SignUp.svelte';
+import RestrictedArea from "./pages/RestrictedArea/RestrictedArea.svelte";
+
 </script>
 
 <Router>
   <nav>
-    <Link to="/">Home</Link>
-    <Link to="/login">Login</Link>
-    <Link to="/signup">Sign Up</Link>
+    <Link to="/">// Home //</Link>
+    {#if !$user}
+    <Link to="/login">// Login //</Link>
+    <Link to="/signup">// SignUp //</Link>
+    {/if}
+    {#if $user}
+    <Link to="/restricted-area">// Restricted Area //</Link>
+    {/if}
   </nav>
+
   <Route path="/">
     <Home />
   </Route>
@@ -22,6 +33,10 @@ import Signup from './pages/SignUp/SignUp.svelte';
   <Route path="/signup">
     <Signup />
   </Route>
+
+  <PrivateRoute path="/restricted-area">
+    <RestrictedArea />
+  </PrivateRoute>
 
 </Router>
   
