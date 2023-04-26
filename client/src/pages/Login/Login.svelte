@@ -53,6 +53,10 @@ let password = ""
         password = "";
     };
 
+    function sendResetEmail(){
+        //logic for sending an email!!
+    }
+
 
 </script>
 
@@ -65,4 +69,9 @@ let password = ""
     <input type="password" name="password" placeholder="password" bind:value={password} required/>
 
     <button type="submit">Login</button>
+</form>
+
+<form on:submit|preventDefault="{sendResetEmail}">
+    <input type="email" name="email" bind:value={email} required />
+<button type="submit">SEND ME AN EMAIL</button>
 </form>
