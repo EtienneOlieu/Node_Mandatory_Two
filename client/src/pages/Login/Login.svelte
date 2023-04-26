@@ -32,10 +32,10 @@ let password = ""
         const data = await response.json();
        
         if (response.status === 404) {
-            toastr.error(`User does not exist. Maybe you need to subscribe`)
+            return toastr.error(`User does not exist. Maybe you need to subscribe`)
         }
         if (response.status === 400){
-            toastr.error(`Wrong password.`)
+            return toastr.error(`Wrong password.`)
         }    
 
         if (response.status === 200 && data.email === email){
