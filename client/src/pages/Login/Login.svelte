@@ -3,16 +3,16 @@
     import toastr from "toastr";
     import 'toastr/build/toastr.css';
     import { user } from "../../store/user.js";
-    import { navigate } from "svelte-navigator";
-    
+    import { navigate } from "svelte-navigator";    
 
 toastr.option = {
         "positionClass": "toast-top-right",
         "timeOut": "3000"
     }
 
-let email = ""
-let password = ""
+let email = "";
+let password = "";
+let recoveryEmail = "";
 
     async function handleLogin(){
 
@@ -53,9 +53,21 @@ let password = ""
         password = "";
     };
 
-    function sendResetEmail(){
-        //logic for sending an email!!
-    }
+    async function sendResetEmail(){
+        
+        const resetUrl = $BASE_URL + "/user/recovery?email=" + recoveryEmail;
+        console.log(resetUrl)
+        const response = await fetch(resetUrl, {
+            method: "GET",
+        });
+
+        if (response.status === 200){
+            return toastr.success("An email has been sent")
+        }
+        else {
+            return toastr.error(response.status)
+        }
+    };
 
 
 </script>
@@ -72,6 +84,6 @@ let password = ""
 </form>
 
 <form on:submit|preventDefault="{sendResetEmail}">
-    <input type="email" name="email" bind:value={email} required />
-<button type="submit">SEND ME AN EMAIL</button>
+    <input type="email" name="recovery_email" placeholder="recovery email" bind:value={recoveryEmail} required />
+<button type="submit">I Forgot my password</button>
 </form>

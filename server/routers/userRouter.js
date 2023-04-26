@@ -2,6 +2,20 @@ import { Router } from "express";
 const router = Router();
 import db from "../databases/connection.js";
 import bcrypt from "bcrypt";
+import { resetPassword } from "../util/nodemailer.js";
+
+router.get("/user/recovery", async (req, res) =>{
+    const targetEmail = req.query.email;
+    const checkIfUser = await db.get("SELECT * FROM users WHERE email = ?", [targetEmail]);
+
+    if(!checkIfUser){
+        return res.status(404).send({message: "That email is not registered with us"});
+    }
+    resetPassword(targetEmail).catch(console.error);
+
+    res.status(200).send({message: "recovery mail has been sent"})
+
+})
 
 router.get("/users/logout", async (req, res) => {
     req.session.destroy(()=>{
@@ -54,3 +68,4 @@ router.post("/users/createuser", async (req, res) => {
 })
 
 export default router;
+

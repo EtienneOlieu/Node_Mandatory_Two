@@ -3,7 +3,8 @@ import nodemailer from "nodemailer"
 /* Taken and modified from: https://nodemailer.com/about/ */ 
 
 // async..await is not allowed in global scope, must use a wrapper
-async function main(name, mail) {
+export async function resetPassword(email) {
+  console.log(email)
     // Generate test SMTP service account from ethereal.email
     // Only needed if you don't have a real mail account for testing
     let testAccount = await nodemailer.createTestAccount();
@@ -18,14 +19,14 @@ async function main(name, mail) {
         pass: testAccount.pass, // generated ethereal password
       },
     });
-  
+    
     // send mail with defined transport object
     let info = await transporter.sendMail({
-      from: '"User registry" <uregistry@mail.com>', // sender address
-      to: name + `<$email>`, // list of receivers
-      subject: "Thank you for signing up", // Subject line
-      text: `We are happy for you to join our extended family here *insert corporation*, ${name}`, // plain text body
-      html: "<b>Hello world?</b>", // html body
+      from: '"Mandatory 2 mailer" <mandatory@mail.com>', // sender address
+      to: `${email}`, // list of receivers
+      subject: "Recory of password", // Subject line
+      text: `We are sorry but this functionality is still under construction`, // plain text body
+      html: "<b>Recovery</b>", // html body
     });
   
     console.log("Message sent: %s", info.messageId);
@@ -36,4 +37,3 @@ async function main(name, mail) {
     // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
   }
   
-  main().catch(console.error);
